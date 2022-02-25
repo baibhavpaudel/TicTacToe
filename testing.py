@@ -1,3 +1,5 @@
+import itertools
+
 game = [[1, 2, 2],
         [1, 2, 2],
         [2, 1, 1]]
@@ -31,10 +33,15 @@ game = [[1, 2, 2],
 
 # Diags
 
-check = [game[row][col] for row, col in enumerate(range(len(game)))]
-if check.count(check[0]) == len(check) and check[0] != 0:
-    print("Diagonal win \\")
+# check = [game[row][col] for row, col in enumerate(range(len(game)))]
+# if check.count(check[0]) == len(check) and check[0] != 0:
+#     print("Diagonal win \\")
+#
+# check = [game[row][col] for row, col in enumerate(reversed(range(len(game))))]
+# if check.count(check[0]) == len(check) and check[0] != 0:
+#     print("Diagonal win /")
 
-check = [game[row][col] for row, col in enumerate(reversed(range(len(game))))]
-if check.count(check[0]) == len(check) and check[0] != 0:
-    print("Diagonal win /")
+players = [1, 2]
+current_player = itertools.cycle(players)
+for i in range(3):
+    print(next(current_player))
