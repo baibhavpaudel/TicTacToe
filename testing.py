@@ -1,6 +1,6 @@
-game = [[1, 2, 1],
-        [1, 0, 2],
-        [1, 1, 0]]
+game = [[1, 2, 2],
+        [1, 2, 2],
+        [2, 1, 1]]
 
 # Horizontal
 # for row in game:
@@ -31,4 +31,10 @@ game = [[1, 2, 1],
 
 # Diags
 
+check = [game[row][col] for row, col in enumerate(range(len(game)))]
+if check.count(check[0]) == len(check) and check[0] != 0:
+    print("Diagonal win \\")
 
+check = [game[row][col] for row, col in enumerate(reversed(range(len(game))))]
+if check.count(check[0]) == len(check) and check[0] != 0:
+    print("Diagonal win /")
