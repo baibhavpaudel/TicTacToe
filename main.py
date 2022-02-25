@@ -1,9 +1,5 @@
 import itertools
 
-game = [[0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]]
-
 
 def win(gamemap, player):
     # Horizontal win
@@ -33,40 +29,57 @@ def win(gamemap, player):
 
 
 def gameboard(gamemap, player=0, row=0, col=0, just_display=False):
-    def show_gamemap(gamemap):
-        print('   0  1  2')
-        for count, row in enumerate(gamemap):
-            print(count, row)
-
     # Displays gamemap/ moves
     try:
         if not just_display:
             gamemap[row][col] = player
-            show_gamemap(gamemap)
-            return gamemap
-        else:
-            show_gamemap(gamemap)
+        print('   0  1  2')
+        for count, row in enumerate(gamemap):
+            print(count, row)
+        return gamemap, True
     except IndexError as e:
         print(f"That is not a valid position! Error: {e}.")
+        return gamemap, False
     except Exception as e:
         print(f"Something went wrong! Error: {e}.")
+        return gamemap, False
 
 
-gameboard(game, just_display=True)
-
-# TODO: Change between two players and play one by one
 players = [1, 2]
 player = itertools.cycle(players)
 play = True
 
 while play:
-    current_player = next(player)
-    print(f"Current Player : {current_player}")
-    row_choice = int(input("Which row position would you like to play? (0 1 2): "))
-    col_choice = int(input("Which column position would you like to play? (0 1 2): "))
+    game = [[0, 0, 0],
+            [0, 0, 0],
+            [0, 0, 0]]
+    game, _ = gameboard(game, just_display=True)
+    game_won = False
+    player = itertools.cycle(players)
 
-    game = gameboard(gamemap=game, player=current_player, row=row_choice, col=col_choice)
+    while not game_won:
+        current_player = next(player)
+        played = False
 
-    if win(game, current_player):
+        while not played:
+            print(f"Current Player: {current_player}")
+            row_choice = int(input("Which row position would you like to play? (0 1 2): "))
+            col_choice = int(input("Which column position would you like to play? (0 1 2): "))
+
+            game, played = gameboard(gamemap=game, player=current_player, row=row_choice, col=col_choice)
+
+        if win(game, current_player):
+            print("Game Over....")
+            game_won = True
+
+    again = input("Do you want to play another game? (y/n): ")
+    if again.lower() == 'n':
+        print("Got it! See you soon....")
+        play = False
+    elif again.lower() == 'y':
+        print("Restarting.....")
+        play = True
+    else:
+        print("Invalid option x.x! Exiting....")
         play = False
 
